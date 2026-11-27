@@ -58,7 +58,6 @@ Every section has its own composition:
 | Work | 12-column asymmetric grid — 7/5, 6/6, 4/4/4 — with a scrolling marquee divider above |
 | About | Portrait frame (grayscale → colour on hover) + numbered skill index table |
 | Services | Full-width rule-separated list; row expands and title slides on hover |
-| Lab | Mixed 4-col/2-col tile grid with one typographic "currently exploring" tile |
 | Contact | Word-wrapped display headline + contact index + bordered form panel |
 | Footer | Oversized wordmark, minimal links, back-to-top |
 
@@ -89,6 +88,7 @@ Tokens live in `app/globals.css` as CSS custom properties and are **overridable 
   tracking (`-0.03em` to `-0.045em`), line-height 0.82–0.96.
 - **Body:** Inter — prose, forms, UI.
 - **Mono:** JetBrains Mono — metadata, labels, counters, technical captions.
+- Fluid scale tuned small: body 14–15px, section headings up to 44px, hero name up to 54px.
 - All three are self-hosted through `next/font/google` (no render-time CDN dependency, no layout shift).
 - Fluid type scale `--step--1 … --step-hero`, all defined with `clamp()`.
 
@@ -102,7 +102,7 @@ Tokens live in `app/globals.css` as CSS custom properties and are **overridable 
 ## 4. Page structure
 
 ```
-/                      Home (all sections, single page)
+/                      Home (hero, work, about, services, contact)
 /work                  Full project archive (search + category filter)
 /work/[slug]           Project detail page (cover, intro, gallery, challenges, process, prev/next)
 /admin/login           Admin sign-in (own dark visual language)
@@ -145,6 +145,8 @@ components/site/
   ProjectModal.tsx         project card overlay with Close, Esc, ←/→, prev/next
   ContactForm.tsx          validated form + states
   SiteFooter.tsx           footer + back to top
+  Loader.tsx               first-visit loading sequence (animated wordmark + real progress)
+  BackToTop.tsx            floating go-to-top with reading-progress ring
 
 components/admin/
   AdminShell.tsx           sidebar + mobile nav

@@ -72,7 +72,7 @@ export const viewport: Viewport = {
 /**
  * Set the theme before paint so there is no flash of the wrong mode.
  */
-const THEME_BOOT = `(function(){try{var t=localStorage.getItem('hh-theme');if(t!=='light'&&t!=='dark'){t='__DEFAULT__';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='__DEFAULT__';}})();`;
+const THEME_BOOT = `(function(){var h=document.documentElement;try{var t=localStorage.getItem('hh-theme');if(t!=='light'&&t!=='dark'){t='__DEFAULT__';}h.dataset.theme=t;}catch(e){h.dataset.theme='__DEFAULT__';}try{var seen=sessionStorage.getItem('hh-intro-seen')==='1';var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;h.dataset.intro=(seen||reduce)?'skip':'running';}catch(e){h.dataset.intro='running';}})();`;
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSettings();

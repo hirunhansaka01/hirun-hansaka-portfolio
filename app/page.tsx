@@ -6,16 +6,19 @@ import ContactForm from '../components/site/ContactForm';
 import Reveal from '../components/site/Reveal';
 import SiteFooter from '../components/site/SiteFooter';
 import BackToTop from '../components/site/BackToTop';
+import Loader from '../components/site/Loader';
 import { getPublicSiteData } from '../lib/queries';
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const { settings, projects, projectImages, skills, services, experiments, socials } =
+  const { settings, projects, projectImages, skills, services, socials } =
     await getPublicSiteData();
 
   return (
     <ThemeProvider defaultTheme={settings.default_theme} tokens={settings.theme}>
+      <Loader name={settings.owner_name || 'Hirun Hansaka'} />
+
       <a className="skip-link" href="#work">
         Skip to work
       </a>
@@ -221,74 +224,6 @@ export default async function HomePage() {
                 <span className="s-title">Add services in the dashboard</span>
                 <span className="s-note" />
               </div>
-            )}
-          </div>
-        </section>
-
-        {/* ---------------- 04 / LAB ---------------- */}
-        <section id="lab" className="shell section">
-          <Reveal className="section-head">
-            <div>
-              <span className="eyebrow">{settings.experiments_label || '04 / CREATIVE LAB'}</span>
-              <h2 className="title-section" style={{ marginTop: '0.9rem' }}>
-                {settings.experiments_heading || 'Curiosity in progress.'}
-              </h2>
-            </div>
-            <span className="meta">Prototypes · visual studies · code sketches</span>
-          </Reveal>
-
-          <div className="lab-grid">
-            <Reveal className="lab-card lab-card--big lab-card--tall lab-card--text">
-              <div className="lab-body">
-                <span className="eyebrow eyebrow--muted">Now exploring</span>
-                <p className="lab-quote" style={{ margin: '0.75rem 0 0' }}>
-                  AI, automation
-                  <br />
-                  &amp; the web.
-                </p>
-                <p className="lab-desc" style={{ marginTop: '0.9rem', maxWidth: '34ch' }}>
-                  Small experiments in interaction, tooling and visual systems — the unfinished work
-                  that keeps the craft moving.
-                </p>
-              </div>
-            </Reveal>
-
-            {experiments.length ? (
-              experiments.slice(0, 5).map((ex, i) => (
-                <Reveal
-                  key={ex.id}
-                  delay={i * 60}
-                  className={`lab-card ${i % 3 === 0 ? 'lab-card--small' : 'lab-card--big'}`}
-                >
-                  {ex.media_url && ex.media_type === 'image' ? (
-                    <div className="lab-media">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={ex.media_url} alt={ex.title} loading="lazy" />
-                    </div>
-                  ) : ex.media_url && ex.media_type === 'video' ? (
-                    <div className="lab-media">
-                      <video src={ex.media_url} muted loop playsInline autoPlay preload="metadata" />
-                    </div>
-                  ) : null}
-                  <div className="lab-body">
-                    <span className="lab-title">{ex.title}</span>
-                    {ex.description ? <p className="lab-desc">{ex.description}</p> : null}
-                    {ex.link_url ? (
-                      <a className="link-arrow lab-link" href={ex.link_url} target="_blank" rel="noreferrer noopener">
-                        Open experiment ↗
-                      </a>
-                    ) : null}
-                  </div>
-                </Reveal>
-              ))
-            ) : (
-              <Reveal delay={60} className="lab-card lab-card--big">
-                <div className="lab-media" />
-                <div className="lab-body">
-                  <span className="lab-title">Nothing published yet</span>
-                  <p className="lab-desc">Experiments you add in the dashboard will show up here.</p>
-                </div>
-              </Reveal>
             )}
           </div>
         </section>
