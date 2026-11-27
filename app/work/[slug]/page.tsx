@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import ThemeProvider from '../../../components/site/ThemeProvider';
 import SiteHeader from '../../../components/site/SiteHeader';
 import SiteFooter from '../../../components/site/SiteFooter';
+import BackToTop from '../../../components/site/BackToTop';
 import { getProjectBySlug, getPublicSiteData } from '../../../lib/queries';
 
 export const revalidate = 60;
@@ -198,6 +199,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </div>
         </section>
       </main>
+
+      <BackToTop />
 
       <SiteFooter
         wordmark={site.settings.wordmark || 'HIRUN HANSAKA'}

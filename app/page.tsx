@@ -5,6 +5,7 @@ import WorkGrid from '../components/site/WorkGrid';
 import ContactForm from '../components/site/ContactForm';
 import Reveal from '../components/site/Reveal';
 import SiteFooter from '../components/site/SiteFooter';
+import BackToTop from '../components/site/BackToTop';
 import { getPublicSiteData } from '../lib/queries';
 
 export const revalidate = 60;
@@ -27,15 +28,6 @@ export default async function HomePage() {
       <main id="top" className="page-enter">
         {/* ---------------- HERO ---------------- */}
         <section className="shell hero">
-          <div className="hero-status">
-            <span className="pill">
-              <span className="pulse" aria-hidden="true" />
-              {settings.availability_text || 'Available for projects'}
-            </span>
-            <span className="meta">{settings.location_label || 'Sri Lanka'}</span>
-            <span className="meta hero-coords">06°55′N 79°51′E</span>
-          </div>
-
           <h1 className="hero-title" data-ready="true">
             {heroLines.map((line, i) => {
               const isAccent = line.toUpperCase().includes(accent);
@@ -341,6 +333,8 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
+
+      <BackToTop />
 
       <SiteFooter
         wordmark={settings.wordmark || 'HIRUN HANSAKA'}

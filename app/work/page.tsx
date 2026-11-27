@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import ThemeProvider from '../../components/site/ThemeProvider';
 import SiteHeader from '../../components/site/SiteHeader';
 import SiteFooter from '../../components/site/SiteFooter';
+import BackToTop from '../../components/site/BackToTop';
 import AllProjects from '../../components/site/AllProjects';
 import { getPublicSiteData } from '../../lib/queries';
 
@@ -36,6 +37,8 @@ export default async function WorkIndexPage() {
           <AllProjects projects={projects} images={projectImages} />
         </section>
       </main>
+      <BackToTop />
+
       <SiteFooter
         wordmark={settings.wordmark || 'HIRUN HANSAKA'}
         tagline={settings.footer_tagline || 'Designed with curiosity. Built with purpose.'}
