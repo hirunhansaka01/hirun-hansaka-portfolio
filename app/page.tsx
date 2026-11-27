@@ -68,8 +68,15 @@ export default async function HomePage() {
               </h1>
 
               <p className="hero-role">
-                <Typewriter phrases={heroRoles(settings.role_line)} startDelay={260} />
+                <Typewriter
+                  phrases={heroRoles(settings.hero_roles || settings.role_line)}
+                  startDelay={260}
+                />
               </p>
+
+              {settings.hero_tagline ? (
+                <span className="hero-tagline">{settings.hero_tagline}</span>
+              ) : null}
 
               <p className="hero-blurb">
                 {settings.about_body ||
@@ -78,10 +85,10 @@ export default async function HomePage() {
 
               <div className="hero-actions">
                 <a className="btn btn--accent" href="#work">
-                  View my work
+                  {settings.hero_cta_primary || 'View my work'}
                 </a>
                 <a className="btn" href="#contact">
-                  Start a project
+                  {settings.hero_cta_secondary || 'Start a project'}
                 </a>
               </div>
             </div>
@@ -297,7 +304,9 @@ export default async function HomePage() {
 
             <Reveal delay={140}>
               <div style={{ border: '1px solid var(--line)', padding: 'clamp(1.25rem, 3vw, 2rem)', background: 'var(--bg-elevated)' }}>
-                <span className="eyebrow eyebrow--muted">Start a project</span>
+                <span className="eyebrow eyebrow--muted">
+                  {settings.contact_cta_label || 'Start a project'}
+                </span>
                 <div style={{ marginTop: '1.25rem' }}>
                   <ContactForm />
                 </div>

@@ -16,6 +16,13 @@ export type SiteSettings = {
   availability_text: string | null;
   location_label: string | null;
   hero_greeting: string | null;
+  /** Comma/&/and separated roles cycled by the hero typewriter. */
+  hero_roles: string | null;
+  /** Small label under the typewriter (e.g. "The Digital Canvas"). */
+  hero_tagline: string | null;
+  hero_cta_primary: string | null;
+  hero_cta_secondary: string | null;
+  contact_cta_label: string | null;
   hero_line_1: string | null;
   hero_line_2: string | null;
   hero_line_3: string | null;

@@ -198,10 +198,6 @@ export default function SettingsForm({
                 <Field name="services_label" label="Services label" defaultValue={settings.services_label} />
                 <Field name="services_heading" label="Services heading" defaultValue={settings.services_heading} />
               </div>
-              <div className="a-grid-2">
-                <Field name="experiments_label" label="Lab label" defaultValue={settings.experiments_label} />
-                <Field name="experiments_heading" label="Lab heading" defaultValue={settings.experiments_heading} />
-              </div>
             </>
           )}
 
@@ -241,6 +237,12 @@ export default function SettingsForm({
                 />
               </div>
               <Field name="contact_location" label="Location" defaultValue={settings.contact_location} />
+              <Field
+                name="contact_cta_label"
+                label="Contact form panel label"
+                defaultValue={settings.contact_cta_label}
+                hint="Shown above the contact form."
+              />
             </>
           )}
 
