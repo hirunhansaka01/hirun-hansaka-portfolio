@@ -9,6 +9,7 @@ const NAV = [
   { href: '/admin/messages', label: 'Messages', badge: true },
   { href: '/admin/content', label: 'Content' },
   { href: '/admin/settings', label: 'Settings' },
+  { href: '/admin/account', label: 'Account & users' },
 ];
 
 export default function AdminShell({

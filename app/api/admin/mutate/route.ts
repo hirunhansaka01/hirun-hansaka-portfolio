@@ -1,3 +1,4 @@
+import { accountOp } from '../../../../lib/account-ops';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { getSession } from '../../../../lib/auth';
@@ -26,6 +27,10 @@ function refresh(scope?: string) {
 }
 
 export async function POST(req: Request) {
+  const origin = req.headers.get('origin');
+  if (origin && origin !== new URL(req.url).origin && new URL(origin).host !== req.headers.get('host')) {
+    return NextResponse.json({ error: 'Invalid origin.' }, { status: 403 });
+  }
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: 'Your session expired. Please sign in again.' }, { status: 401 });
@@ -43,6 +48,12 @@ export async function POST(req: Request) {
 
   try {
     switch (op) {
+      case 'updateAccount':
+      case 'createUser':
+      case 'deleteUser':
+        await accountOp(op, p);
+        revalidatePath('/admin', 'layout');
+        return NextResponse.json({ ok: true, message: op === 'updateAccount' ? 'Account updated.' : op === 'createUser' ? 'Editor account created.' : 'Account removed.' });
       case 'saveProject': {
         const result = await saveProjectOp(p);
         refresh('/admin/projects');

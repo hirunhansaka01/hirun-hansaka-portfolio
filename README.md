@@ -456,3 +456,15 @@ then save. Delays are in milliseconds (lower is faster). With looping off, each
 phrase types once and the last stays visible. Settings are stored in
 `site_settings`; numeric values are range-limited on the server. Reload the
 public homepage to see changes; cached pages may take up to 60 seconds to refresh.
+
+### Accounts and access
+Admin → **Account & users** lets each user change their own display name, login
+email and password (12–128 characters). Current-password confirmation is required.
+Owners can create editor accounts and remove editors; editors can manage content
+but cannot manage other users. Owners cannot be removed from this UI. Password
+changes invalidate other sessions, and account deletion revokes access immediately
+on server checks. Password hashes never leave the server. Environment-based login
+fallback has been removed so old deployment passwords cannot bypass account changes.
+Existing sessions from before this update require a fresh login.
+Public email/phone/WhatsApp remain under Settings; social links under Content.
+Google SMTP credentials are server environment settings, separate from login/public email.

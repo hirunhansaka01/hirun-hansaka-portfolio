@@ -25,7 +25,7 @@ function sign(payload: string): string {
   return b64url(createHmac('sha256', secret()).update(payload).digest());
 }
 
-export type SessionPayload = { sub: string; email: string; name: string; exp: number };
+export type SessionPayload = { sub: string; email: string; name: string; exp: number; ver?: string };
 
 export function createSessionToken(payload: SessionPayload): string {
   const body = b64url(JSON.stringify(payload));
@@ -92,16 +92,15 @@ export async function authenticate(email: string, password: string) {
     }
   }
 
-  const envEmail = (process.env.ADMIN_EMAIL || '').toLowerCase();
-  const envPass = process.env.ADMIN_PASSWORD || '';
-  if (envEmail && envPass && normalized === envEmail && password === envPass) {
-    return { id: 'env-admin', email: envEmail, name: 'Hirun Hansaka' };
-  }
+
   return null;
 }
 
 export async function createSession(user: { id: string; email: string; name: string }) {
+  const { data: row } = await supabaseAdmin().from('admin_users').select('password_hash').eq('id', user.id).single();
+  if (!row) throw new Error('Account unavailable');
   const token = createSessionToken({
+    ver: sign(row.password_hash),
     sub: user.id,
     email: user.email,
     name: user.name,
@@ -124,7 +123,11 @@ export async function destroySession() {
 
 export async function getSession(): Promise<SessionPayload | null> {
   const jar = await cookies();
-  return verifySessionToken(jar.get(COOKIE)?.value);
+  const session = verifySessionToken(jar.get(COOKIE)?.value);
+  if (!session) return null;
+  const { data, error } = await supabaseAdmin().from('admin_users').select('email,name,password_hash').eq('id', session.sub).maybeSingle();
+  if (error || !data || session.ver !== sign(data.password_hash)) return null;
+  return { ...session, email: data.email, name: data.name || 'Admin' };
 }
 
 export async function requireSession() {
