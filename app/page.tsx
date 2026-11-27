@@ -70,7 +70,12 @@ export default async function HomePage() {
               <p className="hero-role">
                 <Typewriter
                   phrases={heroRoles(settings.hero_roles || settings.role_line)}
-                  startDelay={260}
+                  startDelay={settings.hero_type_start ?? 260}
+                  speed={settings.hero_type_speed ?? 62}
+                  deleteSpeed={settings.hero_type_delete_speed ?? 26}
+                  holdTime={settings.hero_type_hold ?? 1500}
+                  loop={settings.hero_type_loop ?? true}
+                  caret={settings.hero_type_caret ?? true}
                 />
               </p>
 

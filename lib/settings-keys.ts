@@ -39,4 +39,8 @@ export const TEXT_KEYS = [
   'footer_note',
 ] as const;
 
+/** Numeric / boolean typewriter controls, saved alongside the text keys. */
+export const NUM_KEYS = ['hero_type_speed', 'hero_type_delete_speed', 'hero_type_hold', 'hero_type_start'] as const;
+export const BOOL_KEYS = ['hero_type_loop', 'hero_type_caret'] as const;
+
 export type TextKey = (typeof TEXT_KEYS)[number];

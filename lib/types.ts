@@ -20,6 +20,13 @@ export type SiteSettings = {
   hero_roles: string | null;
   /** Small label under the typewriter (e.g. "The Digital Canvas"). */
   hero_tagline: string | null;
+  /** Typewriter behaviour (characters per tick, pauses, effects). */
+  hero_type_speed: number | null;
+  hero_type_delete_speed: number | null;
+  hero_type_hold: number | null;
+  hero_type_start: number | null;
+  hero_type_loop: boolean | null;
+  hero_type_caret: boolean | null;
   hero_cta_primary: string | null;
   hero_cta_secondary: string | null;
   contact_cta_label: string | null;

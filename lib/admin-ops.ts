@@ -158,8 +158,8 @@ export async function deleteMessageOp(id: string) {
 
 /* ------------------------------- settings ------------------------------- */
 
-export { TEXT_KEYS } from './settings-keys';
-import { TEXT_KEYS } from './settings-keys';
+export { TEXT_KEYS, NUM_KEYS, BOOL_KEYS } from './settings-keys';
+import { TEXT_KEYS, NUM_KEYS, BOOL_KEYS } from './settings-keys';
 
 export async function saveSettingsOp(input: Record<string, unknown>) {
   await requireSession();
@@ -170,6 +170,23 @@ export async function saveSettingsOp(input: Record<string, unknown>) {
       const value = text(input[key]);
       update[key] = value || (key === 'site_title' ? 'Hirun Hansaka — The Digital Canvas' : null);
     }
+  }
+  // Typewriter numbers are clamped so a typo in the dashboard cannot produce a
+  // 0ms-per-character animation or a 10-minute hold.
+  const RANGES: Record<string, [number, number, number]> = {
+    hero_type_speed: [10, 300, 62],
+    hero_type_delete_speed: [5, 200, 26],
+    hero_type_hold: [200, 8000, 1500],
+    hero_type_start: [0, 4000, 260],
+  };
+  for (const key of NUM_KEYS) {
+    if (!(key in input)) continue;
+    const raw = Number(input[key]);
+    const [min, max, fallback] = RANGES[key];
+    update[key] = Number.isFinite(raw) ? Math.min(Math.max(Math.round(raw), min), max) : fallback;
+  }
+  for (const key of BOOL_KEYS) {
+    if (key in input) update[key] = input[key] === true || input[key] === 'true' || input[key] === 'on';
   }
   if ('default_theme' in input) {
     update.default_theme = input.default_theme === 'light' ? 'light' : 'dark';

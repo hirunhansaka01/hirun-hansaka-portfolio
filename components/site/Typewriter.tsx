@@ -20,6 +20,8 @@ export default function Typewriter({
   holdTime = 1500,
   speed = 62,
   deleteSpeed = 26,
+  loop = true,
+  caret = true,
   className = '',
 }: {
   text?: string;
@@ -28,6 +30,8 @@ export default function Typewriter({
   holdTime?: number;
   speed?: number;
   deleteSpeed?: number;
+  loop?: boolean;
+  caret?: boolean;
   className?: string;
 }) {
   const list = (phrases && phrases.length ? phrases : [text || '']).filter(Boolean);
@@ -60,7 +64,7 @@ export default function Typewriter({
         i += 1;
         setTyped(i);
         if (i >= phrase.length) {
-          if (!rotating) return; // one-shot mode: stop, caret stays lit
+          if (!rotating || (!loop && index === list.length - 1)) return;
           deleting = true;
           timer.current = window.setTimeout(step, holdTime);
           return;
@@ -85,7 +89,7 @@ export default function Typewriter({
     };
 
     const begin = () => {
-      if (cancelled) return;
+      if (cancelled || startedRef.current) return;
       index = 0;
       i = 0;
       deleting = false;
@@ -124,7 +128,7 @@ export default function Typewriter({
       clear();
       if (wait) window.clearInterval(wait);
     };
-  }, [full, speed, deleteSpeed, holdTime, startDelay]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [full, speed, deleteSpeed, holdTime, startDelay, rotating, loop]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const phrase = list[current] ?? '';
   const shown = started ? phrase.slice(0, Math.min(typed, phrase.length)) : '';
@@ -134,11 +138,9 @@ export default function Typewriter({
       {/* Real text for assistive tech and no-JS: the whole list, unanimated. */}
       <span className="sr-only">{full}</span>
       <span aria-hidden="true">{shown}</span>
-      <span
-        className="caret"
-        data-done={!rotating && typed >= phrase.length}
-        aria-hidden="true"
-      />
+      {caret ? (
+        <span className="caret" data-done={!rotating && typed >= phrase.length} aria-hidden="true" />
+      ) : null}
     </span>
   );
 }

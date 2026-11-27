@@ -174,3 +174,13 @@ create table if not exists message_replies (
 );
 create index if not exists message_replies_message_idx on message_replies (message_id, created_at);
 alter table message_replies enable row level security;
+
+-- Editable hero typewriter controls (existing installations).
+alter table site_settings
+  add column if not exists hero_roles text,
+  add column if not exists hero_type_speed integer default 62,
+  add column if not exists hero_type_delete_speed integer default 26,
+  add column if not exists hero_type_hold integer default 1500,
+  add column if not exists hero_type_start integer default 260,
+  add column if not exists hero_type_loop boolean default true,
+  add column if not exists hero_type_caret boolean default true;

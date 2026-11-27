@@ -166,6 +166,34 @@ export default function SettingsForm({
           {has('homepage') && (
             <>
               <div className="a-section-label">Hero</div>
+              <div className="a-section-label">Typewriter effect</div>
+              <Field name="hero_roles" label="Typewriter phrases" defaultValue={settings.hero_roles || settings.role_line}
+                hint="Separate roles with commas, for example: Web developer, graphic designer, visual content creator." textarea />
+              <div className="a-grid-2">
+                {([
+                  ['hero_type_speed', 'Typing delay (ms per character)', 10, 300, 62],
+                  ['hero_type_delete_speed', 'Deleting delay (ms per character)', 5, 200, 26],
+                  ['hero_type_hold', 'Pause after each phrase (ms)', 200, 8000, 1500],
+                  ['hero_type_start', 'Start delay after loader (ms)', 0, 4000, 260],
+                ] as const).map(([key, label, min, max, fallback]) => (
+                  <div className="a-field" key={key}>
+                    <label htmlFor={key}>{label}</label>
+                    <input id={key} name={key} type="number" min={min} max={max} step="1" defaultValue={settings[key] ?? fallback} required />
+                  </div>
+                ))}
+              </div>
+              <span className="hint">Lower delay means faster typing. 1000 ms = 1 second. Turn looping off to type all phrases once and stop on the last.</span>
+              <div className="a-grid-2">
+                {([['hero_type_loop', 'Loop phrases'], ['hero_type_caret', 'Show blinking cursor']] as const).map(([key, label]) => (
+                  <div className="a-field" key={key}>
+                    <label htmlFor={key}>{label}</label>
+                    <select id={key} name={key} defaultValue={String(settings[key] ?? true)}>
+                      <option value="true">On</option><option value="false">Off</option>
+                    </select>
+                  </div>
+                ))}
+              </div>
+
               <div className="a-grid-2">
                 <Field
                   name="hero_greeting"

@@ -448,3 +448,11 @@ Changes appear on the public site immediately after saving.
 
 Design and build for **Hirun Hansaka**. Typefaces: Space Grotesk (Florian Karsten), Inter (Rasmus
 Andersson), JetBrains Mono (JetBrains) — all via Google Fonts / `next/font`.
+
+### Editing the hero typewriter
+Open **Admin → Settings → Typewriter effect**. Edit comma-separated phrases,
+typing/deleting delays, hold time, initial delay, looping and cursor visibility,
+then save. Delays are in milliseconds (lower is faster). With looping off, each
+phrase types once and the last stays visible. Settings are stored in
+`site_settings`; numeric values are range-limited on the server. Reload the
+public homepage to see changes; cached pages may take up to 60 seconds to refresh.
