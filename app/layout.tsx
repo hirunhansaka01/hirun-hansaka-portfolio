@@ -60,6 +60,17 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: s.og_image_url ? [s.og_image_url] : undefined,
     },
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+        { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+      ],
+      shortcut: '/favicon.ico',
+      apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+      other: [{ rel: 'mask-icon', url: '/icon-512.png', color: '#FF6300' }],
+    },
+    manifest: '/manifest.webmanifest',
     robots: { index: true, follow: true },
   };
 }

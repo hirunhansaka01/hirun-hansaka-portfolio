@@ -268,6 +268,21 @@ The exact DDL used lives in `sql/schema.sql`; starter content is in `sql/seed.sq
 
 ---
 
+## 9b. Brand icon / favicon
+
+The `H` monogram (white pillars, orange crossbar on the ink ground) ships as:
+
+| File | Purpose |
+|---|---|
+| `app/favicon.ico` | multi-resolution 16/32/48 — browser tabs, bookmarks |
+| `app/icon.png` | 192px app-router icon |
+| `app/apple-icon.png` + `public/apple-touch-icon.png` | iOS home screen |
+| `public/icon-192.png`, `public/icon-512.png` | manifest / PWA |
+| `public/icon-maskable-512.png` | Android adaptive icon (safe-area padded) |
+| `app/manifest.ts` | web app manifest (name, theme colour, icons) |
+
+All sizes are generated from the source artwork with the mark centred on a 1.30× padded square, so it stays legible at 16px. Replace the source and re-run the crop if the logo ever changes.
+
 ## 10. Image storage
 
 - Supabase Storage bucket **`media`**, public read.
