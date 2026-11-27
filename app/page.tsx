@@ -15,6 +15,25 @@ import { getPublicSiteData } from '../lib/queries';
 
 export const revalidate = 60;
 
+/**
+ * The dashboard stores one editable line, e.g.
+ *   "Web developer, graphic designer & visual content creator."
+ * The hero types each role in turn, so split it on commas / ampersands / "and"
+ * while keeping the words intact. Falls back to a single phrase when the owner
+ * writes something that does not split into roles.
+ */
+function heroRoles(roleLine?: string | null): string[] {
+  const fallback = ['Web developer', 'Graphic designer', 'Visual content creator'];
+  const raw = (roleLine || '').trim();
+  if (!raw) return fallback;
+  const parts = raw
+    .replace(/\.$/, '')
+    .split(/\s*(?:,|&|\band\b|\+)\s*/i)
+    .map((p) => p.trim())
+    .filter((p) => p.length > 1);
+  return parts.length > 1 ? parts : [raw.replace(/\.$/, '')];
+}
+
 export default async function HomePage() {
   const { settings, projects, projectImages, skills, services, socials } =
     await getPublicSiteData();
@@ -50,13 +69,13 @@ export default async function HomePage() {
                 </span>
                 <span className="split-line">
                   <span className="hero-name" style={{ ['--line-delay' as string]: '210ms' }}>
-                    <Typewriter text={settings.owner_name || 'Hirun Hansaka'} />
+                    {settings.owner_name || 'Hirun Hansaka'}
                   </span>
                 </span>
               </h1>
 
               <p className="hero-role">
-                {settings.role_line || 'Web developer, graphic designer & visual content creator.'}
+                <Typewriter phrases={heroRoles(settings.role_line)} startDelay={260} />
               </p>
 
               <p className="hero-blurb">

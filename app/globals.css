@@ -380,8 +380,14 @@ h1, h2, h3, h4 {
   line-height: 1.4;
   letter-spacing: -0.01em;
   color: var(--fg);
-  max-width: 26ch;
+  max-width: 32ch;
+  /* Reserve two lines so the CTAs never shift while the phrase changes. */
+  min-height: 2.8em;
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
 }
+.hero-role .typewriter { min-width: 1px; }
 .hero-blurb {
   margin: 0.85rem 0 0;
   color: var(--fg-muted);
@@ -1255,15 +1261,25 @@ html[data-motion='reduced'] .work-grid .project-card {
 .typewriter { display: inline; white-space: pre-wrap; }
 .typewriter .caret {
   display: inline-block;
-  width: 0.06em;
+  width: 0.075em;
   min-width: 2px;
-  height: 0.92em;
-  margin-left: 0.06em;
+  height: 1em;
+  margin-left: 0.1em;
   background: var(--accent);
-  vertical-align: -0.06em;
-  animation: caretBlink 1.05s steps(1) infinite;
+  vertical-align: -0.12em;
+  border-radius: 1px;
+  animation: caretBlink 1.02s steps(1) infinite;
 }
-.typewriter .caret[data-done='true'] { animation: caretBlink 1.25s steps(1) infinite; opacity: 0.55; }
+.typewriter .caret[data-done='true'] { animation: caretBlink 1.3s steps(1) infinite; opacity: 0.6; }
+/* Hero role: a soft block caret that never fully disappears */
+.hero-role .caret {
+  animation: caretBreathe 1.4s ease-in-out infinite;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+@keyframes caretBreathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
 @keyframes caretBlink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }

@@ -303,7 +303,7 @@ Everything is hand-written CSS + a little vanilla JS — no animation library.
 |---|---|---|
 | **Loading sequence** | First visit per session: letter-by-letter wordmark, orbiting accent ring, live percentage counter and bar, then two curtains split vertically to reveal the page. Document-readiness driven, hard-capped at ~5.5s, session-flagged, skipped for reduced motion and never shown in `/admin`. | `components/site/Loader.tsx` + `LOADING SEQUENCE` block in `globals.css` |
 | **Hero entrance** | After the curtains open, header drops in, greeting/name/role/blurb/CTAs stagger upward, portrait fades in — driven by `html[data-intro='done']`. | `POST-LOAD ENTRANCE` block |
-| **Typewriter** | The hero name types itself once the intro hands over. | `components/site/Typewriter.tsx` |
+| **Typewriter** | The hero **role line** types each role in turn — "Web developer" → "Graphic designer" → "Visual content creator" — holds it, deletes back, and loops. The name stays static. Phrases are parsed from the editable `role_line` setting, so changing it in the dashboard changes the loop; a single‑role line simply types once. | `components/site/Typewriter.tsx` + `heroRoles()` in `app/page.tsx` |
 | **Scroll reveals** | Every section/card fades up out of a soft blur, staggered by index; replayable when you scroll back. | `Reveal.tsx` + `ScrollFX.tsx` |
 | **Scrub headlines** | Section + contact headlines light word-by-word from a muted wash to full ink as they reach the read line. | `ScrubText.tsx` + `ScrollFX.tsx` |
 | **Project grid** | Cards rise in sequence with `--i` delays, image scales on hover. | `WorkGrid.tsx` + `.work-grid .project-card` |
