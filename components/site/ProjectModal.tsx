@@ -30,11 +30,11 @@ export default function ProjectModal({ list, index, onIndex, onClose }: ModalPro
       if (e.key === 'ArrowLeft' && list.length > 1) onIndex((index - 1 + list.length) % list.length);
     };
     document.addEventListener('keydown', onKey);
-    document.body.classList.add('no-scroll');
+    document.body.classList.add('no-scroll', 'modal-open');
     closeRef.current?.focus();
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.body.classList.remove('no-scroll');
+      document.body.classList.remove('no-scroll', 'modal-open');
     };
   }, [onClose, onIndex, index, list.length]);
 

@@ -437,3 +437,59 @@
   .a-main { padding: 1rem 0.9rem 3rem; }
   .a-login-card { align-items: flex-start; padding-top: 4rem; }
 }
+
+/* ---------- reply thread / composer ---------- */
+.a-reply { margin-top: 0.85rem; }
+.a-thread { list-style: none; margin: 0 0 0.75rem; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.a-thread-item {
+  border-left: 2px solid var(--a-accent);
+  background: #FBFAF8;
+  padding: 0.6rem 0.75rem;
+}
+.a-thread-item--failed { border-left-color: var(--a-err); background: #FDF4F3; }
+.a-thread-item--not_configured { border-left-color: #9A7B12; background: #FCF8EC; }
+.a-thread-head { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
+.a-thread-who {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--a-accent);
+}
+.a-thread-when { font-family: var(--font-mono); font-size: 0.5625rem; color: var(--a-muted); }
+.a-thread-body { margin: 0.35rem 0 0; font-size: 0.8125rem; line-height: 1.6; white-space: pre-line; color: #3b3b36; }
+.a-thread-error { margin: 0.4rem 0 0; font-size: 0.6875rem; color: var(--a-err); word-break: break-word; }
+
+.a-composer {
+  border: 1px solid var(--a-line);
+  border-radius: 6px;
+  padding: 0.85rem;
+  background: #FBFAF8;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-width: 42rem;
+}
+.a-composer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--a-muted);
+}
+.a-composer-head strong { color: var(--a-ink); text-transform: none; letter-spacing: 0; }
+.a-composer-close {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--a-line);
+  background: #fff;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--a-muted);
+}
+.a-composer-close:hover { border-color: var(--a-accent); color: var(--a-accent); }
+.a-composer .a-field input, .a-composer .a-field textarea { background: #fff; }

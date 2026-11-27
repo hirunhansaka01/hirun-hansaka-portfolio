@@ -235,11 +235,15 @@ experiments      id uuid pk · title · description · media_url
                  media_type ('image'|'video'|'link'|'none') · link_url · published · sort_order · created_at
 contact_messages id uuid pk · name · email · subject · message
                  status ('unread'|'read'|'archived') · created_at
+message_replies  id uuid pk · message_id → contact_messages(id) on delete cascade
+                 body · subject · sent_by
+                 status ('sent'|'failed'|'not_configured') · provider_id · error · created_at
 social_links     id uuid pk · label · url · handle · sort_order
 activity_logs    id uuid pk · actor · action · entity_type · entity_id · created_at
 ```
 
-Relationships: `projects 1—N project_images` (cascade delete). `site_settings` is a singleton row.
+Relationships: `projects 1—N project_images` (cascade delete), `contact_messages 1—N message_replies`
+(cascade delete). `site_settings` is a singleton row.
 Indexes exist on `projects(status, sort_order)`, `project_images(project_id, sort_order)`,
 `contact_messages(status, created_at)`, `activity_logs(created_at)`.
 
@@ -290,6 +294,39 @@ Breakpoints: `560px`, `640px`, `760px`, `860px`, `899px`, `900px`.
 Reduced-motion users get all transitions and animations disabled (`prefers-reduced-motion`).
 
 ---
+
+## 11b. Replying to messages (Google SMTP)
+
+The admin inbox at `/admin/messages` is a two-way inbox, not a mailto link.
+
+1. A visitor submits the public contact form → the row is stored in `contact_messages`
+   and shown in **Admin → Messages**.
+2. Open the message and press **Reply**. The composer writes to `message_replies`
+   and sends the mail through Google SMTP with `nodemailer`.
+3. The outgoing mail uses a branded HTML shell (the reply text at the top, the
+   original message quoted underneath) and sets `Reply-To` to the visitor, so
+   they can answer straight into the same Gmail inbox.
+4. Every reply is stored on the thread with its status:
+   `sent` (accepted by Google), `failed` (SMTP error is recorded on the row) or
+   `not_configured` (draft saved, no credentials). The dashboard shows the whole
+   thread under each message, so nothing is lost when SMTP is down.
+5. **Admin → Messages → Send test email** sends a one-line check to `SMTP_USER`
+   so you can confirm credentials without waiting for a real customer.
+
+### Getting the App Password
+
+Google no longer accepts a normal account password over SMTP.
+
+1. Enable **2-Step Verification** on the Google account.
+2. Go to <https://myaccount.google.com/apppasswords>.
+3. Create an app password named e.g. `portfolio` → copy the 16-character code.
+4. Add `SMTP_USER` (the full Gmail address) and `SMTP_PASS` (that 16-character code)
+   to `.env.local` and to Vercel → Settings → Environment Variables → Production,
+   then redeploy.
+
+If the two variables are missing the site keeps working: messages still arrive and
+replies are saved as `not_configured` drafts, and the dashboard shows a banner
+explaining what to add.
 
 ## 12. Environment variables
 

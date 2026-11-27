@@ -13,6 +13,7 @@ import {
   setMessageStatusOp,
   toggleProjectOp,
 } from '../../../../lib/admin-ops';
+import { deleteReplyOp, sendReplyOp, testMailOp } from '../../../../lib/mail-ops';
 
 /** Single authenticated mutation endpoint for the admin dashboard. */
 
@@ -71,6 +72,17 @@ export async function POST(req: Request) {
         await deleteMessageOp(String(p.id ?? ''));
         refresh('/admin/messages');
         return NextResponse.json({ ok: true });
+      case 'sendReply': {
+        const result = await sendReplyOp(p);
+        refresh('/admin/messages');
+        return NextResponse.json(result);
+      }
+      case 'deleteReply':
+        await deleteReplyOp(String(p.id ?? ''));
+        refresh('/admin/messages');
+        return NextResponse.json({ ok: true, message: 'Reply deleted.' });
+      case 'testMail':
+        return NextResponse.json(await testMailOp());
       case 'saveSettings':
         await saveSettingsOp(p);
         refresh('/admin/settings');

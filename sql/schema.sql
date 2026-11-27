@@ -159,3 +159,18 @@ alter table activity_logs enable row level security;
 
 -- Storage: create a PUBLIC bucket named "media"
 -- (Dashboard → Storage → New bucket → name: media → Public: on)
+
+-- Replies sent from the admin dashboard over Google SMTP.
+create table if not exists message_replies (
+  id uuid primary key default gen_random_uuid(),
+  message_id uuid not null references contact_messages(id) on delete cascade,
+  body text not null,
+  subject text,
+  sent_by text,
+  status text not null default 'sent' check (status in ('sent','failed','not_configured')),
+  provider_id text,
+  error text,
+  created_at timestamptz not null default now()
+);
+create index if not exists message_replies_message_idx on message_replies (message_id, created_at);
+alter table message_replies enable row level security;

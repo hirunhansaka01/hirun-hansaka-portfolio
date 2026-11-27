@@ -7,7 +7,8 @@ import ProjectModal from './ProjectModal';
 
 const INITIAL_COUNT = 6;
 const STEP = 6;
-const SIZES = ['card--wide', 'card--half', 'card--half', 'card--third', 'card--third', 'card--third'];
+// Uniform two-column rhythm — every card shares the same height so rows align.
+const SIZES = ['card--half', 'card--half', 'card--half', 'card--half', 'card--half', 'card--half'];
 
 function ArrowUpRight() {
   return (

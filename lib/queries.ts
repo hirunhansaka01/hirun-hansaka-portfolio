@@ -169,6 +169,35 @@ export async function getMessages(status?: string): Promise<ContactMessage[]> {
   return (data ?? []) as ContactMessage[];
 }
 
+export type MessageReply = {
+  id: string;
+  message_id: string;
+  body: string;
+  subject: string | null;
+  sent_by: string | null;
+  status: string;
+  provider_id: string | null;
+  error: string | null;
+  created_at: string;
+};
+
+/** Inbox messages plus every reply sent on each thread. */
+export async function getInbox(status?: string) {
+  if (!hasSupabaseEnv()) return { messages: [] as ContactMessage[], replies: {} as Record<string, MessageReply[]> };
+  const sb = supabaseAdmin();
+  let q = sb.from('contact_messages').select('*').order('created_at', { ascending: false });
+  if (status && status !== 'all') q = q.eq('status', status);
+  const [messages, replies] = await Promise.all([
+    q,
+    sb.from('message_replies').select('*').order('created_at', { ascending: true }),
+  ]);
+  const grouped: Record<string, MessageReply[]> = {};
+  for (const r of (replies.data ?? []) as MessageReply[]) {
+    (grouped[r.message_id] ||= []).push(r);
+  }
+  return { messages: (messages.data ?? []) as ContactMessage[], replies: grouped };
+}
+
 export async function getSkills(): Promise<Skill[]> {
   if (!hasSupabaseEnv()) return [];
   const { data } = await supabaseAdmin().from('skills').select('*').order('sort_order');

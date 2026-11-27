@@ -1,6 +1,8 @@
 import Link from 'next/link';
-import { getMessages } from '../../../lib/queries';
+import { getInbox } from '../../../lib/queries';
 import RowAction from '../../../components/admin/RowActions';
+import ReplyComposer from '../../../components/admin/ReplyComposer';
+import MailTest from '../../../components/admin/MailTest';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +19,8 @@ export default async function MessagesPage({
   searchParams: Promise<{ status?: string }>;
 }) {
   const { status = 'all' } = await searchParams;
-  const messages = await getMessages(status);
+  const { messages, replies } = await getInbox(status);
+  const mailReady = Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
 
   return (
     <>
@@ -41,6 +44,23 @@ export default async function MessagesPage({
               {t.label}
             </Link>
           ))}
+        </div>
+      </div>
+
+      <div className="a-panel" style={{ marginBottom: '1rem' }}>
+        <div className="a-panel-head">
+          <h2>Email sending</h2>
+          <span className={`a-pill ${mailReady ? 'a-pill--live' : 'a-pill--draft'}`}>
+            {mailReady ? 'Google SMTP connected' : 'Not configured'}
+          </span>
+        </div>
+        <div className="a-panel-body" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ color: 'var(--a-muted)', fontSize: '0.8125rem', maxWidth: '58ch' }}>
+            {mailReady
+              ? `Replies are sent from ${process.env.SMTP_USER}.`
+              : 'Add SMTP_USER and SMTP_PASS (a Google App Password, not your normal password) in Vercel, then redeploy to reply by email.'}
+          </span>
+          <MailTest enabled={mailReady} />
         </div>
       </div>
 
@@ -84,6 +104,14 @@ export default async function MessagesPage({
                     {m.message}
                   </p>
 
+                  <ReplyComposer
+                    messageId={m.id}
+                    to={m.email}
+                    defaultSubject={m.subject ? `Re: ${m.subject}` : 'Re: your message'}
+                    replies={replies[m.id] ?? []}
+                    mailReady={mailReady}
+                  />
+
                   <div className="a-actions">
                     {m.status !== 'read' ? (
                       <RowAction op="setMessageStatus" payload={{ id: m.id, status: 'read' }} label="Mark read" />
@@ -104,12 +132,6 @@ export default async function MessagesPage({
                         variant="ghost"
                       />
                     ) : null}
-                    <a
-                      className="a-btn a-btn--sm a-btn--ghost"
-                      href={`mailto:${m.email}?subject=Re: ${encodeURIComponent(m.subject || 'Your message')}`}
-                    >
-                      Reply by email
-                    </a>
                     <RowAction
                       op="deleteMessage"
                       payload={{ id: m.id }}

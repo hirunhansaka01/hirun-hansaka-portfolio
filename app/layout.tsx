@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Space_Grotesk, Inter, JetBrains_Mono } from 'next/font/google';
+import { Josefin_Sans, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { getSettings } from '../lib/queries';
 
-const space = Space_Grotesk({
+const josefin = Josefin_Sans({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-space',
+  variable: '--font-josefin',
   display: 'swap',
 });
 
@@ -82,7 +82,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html
       lang="en"
       data-theme={settings.default_theme || 'dark'}
-      className={`${space.variable} ${inter.variable} ${jetbrains.variable}`}
+      className={`${josefin.variable} ${inter.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
       <head>

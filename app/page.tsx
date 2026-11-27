@@ -7,6 +7,7 @@ import Reveal from '../components/site/Reveal';
 import SiteFooter from '../components/site/SiteFooter';
 import BackToTop from '../components/site/BackToTop';
 import Loader from '../components/site/Loader';
+import Typewriter from '../components/site/Typewriter';
 import { getPublicSiteData } from '../lib/queries';
 
 export const revalidate = 60;
@@ -41,7 +42,7 @@ export default async function HomePage() {
                 </span>
                 <span className="split-line">
                   <span className="hero-name" style={{ ['--line-delay' as string]: '210ms' }}>
-                    {settings.owner_name || 'Hirun Hansaka'}
+                    <Typewriter text={settings.owner_name || 'Hirun Hansaka'} />
                   </span>
                 </span>
               </h1>
@@ -80,15 +81,8 @@ export default async function HomePage() {
                     upload from dashboard
                   </div>
                 )}
-                <span className="frame-tag">Portfolio — {settings.location_label || 'Sri Lanka'}</span>
               </div>
 
-              <a className="scroll-cue hero-scroll" href="#work">
-                {settings.hero_scroll_label || 'Scroll to explore'}
-                <svg width="11" height="14" viewBox="0 0 12 16" aria-hidden="true">
-                  <path d="M6 1v12M2 9l4 5 4-5" stroke="currentColor" strokeWidth="1.2" fill="none" />
-                </svg>
-              </a>
             </div>
           </div>
         </section>
