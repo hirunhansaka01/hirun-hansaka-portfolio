@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Josefin_Sans, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { getSettings } from '../lib/queries';
+import SiteChrome from '../components/site/SiteChrome';
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
@@ -72,7 +73,7 @@ export const viewport: Viewport = {
 /**
  * Set the theme before paint so there is no flash of the wrong mode.
  */
-const THEME_BOOT = `(function(){var h=document.documentElement;try{var t=localStorage.getItem('hh-theme');if(t!=='light'&&t!=='dark'){t='__DEFAULT__';}h.dataset.theme=t;}catch(e){h.dataset.theme='__DEFAULT__';}try{var seen=sessionStorage.getItem('hh-intro-seen')==='1';var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;h.dataset.intro=(seen||reduce)?'skip':'running';}catch(e){h.dataset.intro='running';}})();`;
+const THEME_BOOT = `(function(){var h=document.documentElement;try{var t=localStorage.getItem('hh-theme');if(t!=='light'&&t!=='dark'){t='__DEFAULT__';}h.dataset.theme=t;}catch(e){h.dataset.theme='__DEFAULT__';}h.dataset.intro='running';})();`;
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSettings();
@@ -88,7 +89,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <script dangerouslySetInnerHTML={{ __html: boot }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <SiteChrome name={settings.owner_name || 'Hirun Hansaka'} />
+        {children}
+      </body>
     </html>
   );
 }

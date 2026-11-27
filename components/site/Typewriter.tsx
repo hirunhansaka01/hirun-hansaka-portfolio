@@ -42,14 +42,8 @@ export default function Typewriter({
   useEffect(() => {
     if (!list.length) return;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setCurrent(0);
-      setTyped(list[0].length);
-      setStarted(true);
-      return;
-    }
-
     let cancelled = false;
+    const startedRef = { current: false };
     let i = 0;
     let index = 0;
     let deleting = false;
@@ -97,6 +91,7 @@ export default function Typewriter({
       deleting = false;
       setCurrent(0);
       setTyped(0);
+      startedRef.current = true;
       setStarted(true);
       timer.current = window.setTimeout(step, startDelay);
     };
@@ -117,7 +112,14 @@ export default function Typewriter({
       begin();
     }
 
+    // Safety: if the loader never signals (blocked script, slow device), start
+    // anyway rather than leaving an empty line on screen.
+    const failsafe = window.setTimeout(() => {
+      if (!startedRef.current) begin();
+    }, 3200);
+
     return () => {
+      window.clearTimeout(failsafe);
       cancelled = true;
       clear();
       if (wait) window.clearInterval(wait);

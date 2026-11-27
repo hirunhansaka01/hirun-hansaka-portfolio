@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-const SESSION_KEY = 'hh-intro-seen';
-
 /**
  * First-visit loading sequence.
  *
@@ -22,36 +20,20 @@ export default function Loader({ name }: { name: string }) {
   const [progress, setProgress] = useState(0);
   const startedRef = useRef(0);
 
+  /* The sequence runs on every hard page load (previously it was session-cached,
+     so a reload in the same tab showed nothing — that is why it looked broken).
+     Reduced-motion visitors still get the loader, just without the moving parts. */
   useEffect(() => {
     if (pathname.startsWith('/admin')) {
       setShow(false);
       setDone(true);
-      return;
-    }
-    let seen = false;
-    try {
-      seen = sessionStorage.getItem(SESSION_KEY) === '1';
-    } catch {
-      seen = false;
-    }
-    if (seen || document.documentElement.dataset.intro === 'skip') {
-      setShow(false);
-      setDone(true);
-      return;
-    }
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      try {
-        sessionStorage.setItem(SESSION_KEY, '1');
-      } catch {
-        /* ignore */
-      }
-      setShow(false);
-      setDone(true);
+      document.documentElement.dataset.intro = 'done';
       return;
     }
     startedRef.current = performance.now();
-    setShow(true);
     document.documentElement.dataset.intro = 'running';
+    setShow(true);
+    setDone(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -66,7 +48,8 @@ export default function Loader({ name }: { name: string }) {
       const cap = ready ? 100 : 86;
       setProgress((p) => Math.min(p + Math.max(0.9, (cap - p) * 0.075), cap));
 
-      if (ready && elapsed > 1800) {
+      const minimum = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1100 : 1900;
+      if (ready && elapsed > minimum) {
         finish();
         return;
       }
@@ -92,22 +75,17 @@ export default function Loader({ name }: { name: string }) {
       setProgress(100);
       window.setTimeout(() => {
         setDone(true);
-        try {
-          sessionStorage.setItem(SESSION_KEY, '1');
-        } catch {
-          /* ignore */
-        }
         // Hand over: the curtain takes 900ms, so the hero entrance starts as
         // soon as the page behind it is exposed.
         document.documentElement.dataset.intro = 'done';
         window.setTimeout(() => {
           setShow(false);
           delete document.documentElement.dataset.intro;
-        }, 1500);
+        }, 1200);
       }, 260);
     }
 
-    const bail = window.setTimeout(finish, 5500);
+    const bail = window.setTimeout(finish, 5000);
 
     return () => {
       window.cancelAnimationFrame(raf);

@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { Project, ProjectImage } from '../../lib/types';
 
 type Entry = { project: Project; images: ProjectImage[] };
@@ -22,6 +23,12 @@ export default function ProjectModal({ list, index, onIndex, onClose }: ModalPro
 
   const cardRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Portal to <body>: guarantees the dialog is positioned against the viewport,
+  // never against a filtered/transformed ancestor (which is what was pushing it
+  // off-centre and clipping it).
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -38,7 +45,7 @@ export default function ProjectModal({ list, index, onIndex, onClose }: ModalPro
     };
   }, [onClose, onIndex, index, list.length]);
 
-  return (
+  const dialog = (
     <div className="modal-root" role="dialog" aria-modal="true" aria-label={`${project.title} — project details`}>
       <div className="modal-backdrop" onClick={onClose} />
       <div className="modal-card" ref={cardRef}>
@@ -173,4 +180,7 @@ export default function ProjectModal({ list, index, onIndex, onClose }: ModalPro
       </div>
     </div>
   );
+
+  if (!mounted) return null;
+  return createPortal(dialog, document.body);
 }

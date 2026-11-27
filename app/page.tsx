@@ -6,9 +6,7 @@ import ContactForm from '../components/site/ContactForm';
 import Reveal from '../components/site/Reveal';
 import SiteFooter from '../components/site/SiteFooter';
 import BackToTop from '../components/site/BackToTop';
-import Loader from '../components/site/Loader';
 import Typewriter from '../components/site/Typewriter';
-import ScrollFX from '../components/site/ScrollFX';
 import HeroParallax from '../components/site/HeroParallax';
 import ScrubText from '../components/site/ScrubText';
 import { getPublicSiteData } from '../lib/queries';
@@ -40,12 +38,7 @@ export default async function HomePage() {
 
   return (
     <ThemeProvider defaultTheme={settings.default_theme} tokens={settings.theme}>
-      <Loader name={settings.owner_name || 'Hirun Hansaka'} />
-      <ScrollFX />
       <HeroParallax />
-      <div className="scroll-rail" aria-hidden="true">
-        <span />
-      </div>
 
       <a className="skip-link" href="#work">
         Skip to work

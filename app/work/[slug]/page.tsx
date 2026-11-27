@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ThemeProvider from '../../../components/site/ThemeProvider';
-import ScrollFX from '../../../components/site/ScrollFX';
 import SiteHeader from '../../../components/site/SiteHeader';
 import SiteFooter from '../../../components/site/SiteFooter';
 import BackToTop from '../../../components/site/BackToTop';
@@ -45,10 +44,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <ThemeProvider defaultTheme={site.settings.default_theme} tokens={site.settings.theme}>
-      <ScrollFX />
-      <div className="scroll-rail" aria-hidden="true">
-        <span />
-      </div>
       <SiteHeader
         wordmark={site.settings.wordmark || 'HIRUN HANSAKA'}
         ownerName={site.settings.owner_name || 'Hirun Hansaka'}
