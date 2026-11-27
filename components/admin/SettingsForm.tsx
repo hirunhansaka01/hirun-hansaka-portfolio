@@ -167,6 +167,14 @@ export default function SettingsForm({
             <>
               <div className="a-section-label">Hero</div>
               <div className="a-grid-2">
+                <Field
+                  name="hero_greeting"
+                  label="Greeting (above your name)"
+                  defaultValue={settings.hero_greeting}
+                  hint="Shown small and orange, e.g. “Hey there”"
+                />
+                </div>
+              <div className="a-grid-2">
                 <Field name="hero_line_1" label="Headline line 1" defaultValue={settings.hero_line_1} />
                 <Field name="hero_line_2" label="Headline line 2" defaultValue={settings.hero_line_2} />
               </div>

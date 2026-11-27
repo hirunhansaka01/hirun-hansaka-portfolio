@@ -15,6 +15,7 @@ export type SiteSettings = {
   role_line: string | null;
   availability_text: string | null;
   location_label: string | null;
+  hero_greeting: string | null;
   hero_line_1: string | null;
   hero_line_2: string | null;
   hero_line_3: string | null;

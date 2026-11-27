@@ -23,7 +23,14 @@ export function supabaseAdmin(): SupabaseClient {
   if (!cached) {
     cached = createClient(url, key, {
       auth: { persistSession: false, autoRefreshToken: false },
-      global: { headers: { 'X-Client-Info': 'hirun-portfolio-server' } },
+      global: {
+        headers: { 'X-Client-Info': 'hirun-portfolio-server' },
+        // Next patches global fetch and caches GETs by default, which makes
+        // builds and ISR serve stale CMS content. Page-level `revalidate`
+        // already handles caching, so keep these requests uncached.
+        fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+          fetch(input, { ...init, cache: 'no-store' }),
+      },
     });
   }
   return cached;

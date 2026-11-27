@@ -54,7 +54,7 @@ Every section has its own composition:
 
 | Section | Composition |
 | --- | --- |
-| Hero | Compact type-led block: three-line display headline, availability pill, coordinate label, single-line scroll cue — no decorative graphic |
+| Hero | Two-column intro: greeting + "I am Hirun Hansaka" + role line + short blurb + two CTAs on the left, portrait (colour, greyscales on hover) and scroll cue on the right; no decorative graphic |
 | Work | 12-column asymmetric grid — 7/5, 6/6, 4/4/4 — with a scrolling marquee divider above |
 | About | Portrait frame (grayscale → colour on hover) + numbered skill index table |
 | Services | Full-width rule-separated list; row expands and title slides on hover |
@@ -364,7 +364,7 @@ Sign in at `/admin/login`, then:
 
 - **Settings** — wordmark, name, role line, availability, location, contact details, footer, SEO,
   default theme, and every colour token for both dark and light modes (with live colour pickers).
-- **Content** — hero headline lines and the word rendered in orange, section labels/headings,
+- **Content** — hero greeting, name, role line and blurb, section labels/headings,
   biography, profile photograph (upload), skills, services, experiments, social links.
 - **Projects** — create/edit/delete, reorder, publish/unpublish, duplicate, cover + gallery images,
   live/GitHub URLs.

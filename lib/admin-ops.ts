@@ -160,7 +160,7 @@ export async function deleteMessageOp(id: string) {
 
 const TEXT_KEYS = [
   'site_title', 'meta_description', 'og_image_url', 'wordmark', 'owner_name', 'role_line',
-  'availability_text', 'location_label', 'hero_line_1', 'hero_line_2', 'hero_line_3', 'hero_accent',
+  'availability_text', 'location_label', 'hero_greeting', 'hero_line_1', 'hero_line_2', 'hero_line_3', 'hero_accent',
   'hero_scroll_label', 'canvas_label', 'canvas_year', 'work_label', 'work_heading', 'about_label',
   'about_heading', 'about_body', 'about_bio_long', 'profile_image_url', 'services_label',
   'services_heading', 'experiments_label', 'experiments_heading', 'contact_label', 'contact_heading',

@@ -14,9 +14,6 @@ export default async function HomePage() {
   const { settings, projects, projectImages, skills, services, experiments, socials } =
     await getPublicSiteData();
 
-  const heroLines = [settings.hero_line_1 ?? 'DESIGNING', settings.hero_line_2 ?? 'BEYOND', settings.hero_line_3 ?? 'THE ORDINARY.'];
-  const accent = (settings.hero_accent ?? 'BEYOND').toUpperCase();
-
   return (
     <ThemeProvider defaultTheme={settings.default_theme} tokens={settings.theme}>
       <a className="skip-link" href="#work">
@@ -28,37 +25,68 @@ export default async function HomePage() {
       <main id="top" className="page-enter">
         {/* ---------------- HERO ---------------- */}
         <section className="shell hero">
-          <h1 className="hero-title" data-ready="true">
-            {heroLines.map((line, i) => {
-              const isAccent = line.toUpperCase().includes(accent);
-              const parts = isAccent
-                ? (() => {
-                    const idx = line.toUpperCase().indexOf(accent);
-                    return [
-                      line.slice(0, idx),
-                      <span className="accent" key="a">
-                        {line.slice(idx, idx + accent.length)}
-                      </span>,
-                      line.slice(idx + accent.length),
-                    ];
-                  })()
-                : [line];
-              return (
-                <span className="split-line" key={i}>
-                  <span style={{ ['--line-delay' as string]: `${120 + i * 90}ms` }}>{parts}</span>
-                </span>
-              );
-            })}
-          </h1>
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <span className="hero-greet">
+                <span className="hero-greet-rule" aria-hidden="true" />
+                {settings.hero_greeting || 'Hey there'}
+              </span>
 
-          <div className="hero-lower">
-            <p className="hero-role">{settings.role_line || 'Web developer. Designer. Visual creator.'}</p>
-            <a className="scroll-cue" href="#work">
-              {settings.hero_scroll_label || 'Scroll to explore'}
-              <svg width="11" height="14" viewBox="0 0 12 16" aria-hidden="true">
-                <path d="M6 1v12M2 9l4 5 4-5" stroke="currentColor" strokeWidth="1.2" fill="none" />
-              </svg>
-            </a>
+              <h1 className="hero-intro" data-ready="true">
+                <span className="split-line">
+                  <span style={{ ['--line-delay' as string]: '120ms' }}>I am</span>
+                </span>
+                <span className="split-line">
+                  <span className="hero-name" style={{ ['--line-delay' as string]: '210ms' }}>
+                    {settings.owner_name || 'Hirun Hansaka'}
+                  </span>
+                </span>
+              </h1>
+
+              <p className="hero-role">
+                {settings.role_line || 'Web developer, graphic designer & visual content creator.'}
+              </p>
+
+              <p className="hero-blurb">
+                {settings.about_body ||
+                  'A Sri Lankan developer and creative professional building useful, considered digital experiences.'}
+              </p>
+
+              <div className="hero-actions">
+                <a className="btn btn--accent" href="#work">
+                  View my work
+                </a>
+                <a className="btn" href="#contact">
+                  Start a project
+                </a>
+              </div>
+            </div>
+
+            <div className="hero-media">
+              <div className="portrait-frame portrait-frame--hero">
+                {settings.profile_image_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={settings.profile_image_url}
+                    alt={`Portrait of ${settings.owner_name || 'Hirun Hansaka'}`}
+                  />
+                ) : (
+                  <div className="portrait-placeholder">
+                    Profile photograph
+                    <br />
+                    upload from dashboard
+                  </div>
+                )}
+                <span className="frame-tag">Portfolio — {settings.location_label || 'Sri Lanka'}</span>
+              </div>
+
+              <a className="scroll-cue hero-scroll" href="#work">
+                {settings.hero_scroll_label || 'Scroll to explore'}
+                <svg width="11" height="14" viewBox="0 0 12 16" aria-hidden="true">
+                  <path d="M6 1v12M2 9l4 5 4-5" stroke="currentColor" strokeWidth="1.2" fill="none" />
+                </svg>
+              </a>
+            </div>
           </div>
         </section>
 
@@ -113,23 +141,19 @@ export default async function HomePage() {
                     {settings.about_bio_long}
                   </p>
                 ) : null}
-              </Reveal>
-
-              <Reveal delay={120} style={{ marginTop: '2rem' }}>
-                <div className="portrait-frame">
-                  {settings.profile_image_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={settings.profile_image_url} alt={`Portrait of ${settings.owner_name}`} loading="lazy" />
-                  ) : (
-                    <div className="portrait-placeholder">
-                      Profile photograph
-                      <br />
-                      upload from dashboard
-                    </div>
-                  )}
-                  <span className="frame-tag">{settings.location_label || 'Sri Lanka'}</span>
+                <div className="about-actions">
+                  <a className="link-arrow" href="#contact">
+                    Work with me
+                    <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true">
+                      <path d="M2 10L10 2M4 2h6v6" stroke="currentColor" strokeWidth="1.3" fill="none" />
+                    </svg>
+                  </a>
+                  <a className="link-arrow" href="/work">
+                    All projects
+                  </a>
                 </div>
               </Reveal>
+
             </div>
 
             <div>

@@ -23,6 +23,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   role_line: 'Web developer. Designer. Visual creator.',
   availability_text: 'Available for projects',
   location_label: 'Sri Lanka',
+  hero_greeting: 'Hey there',
   hero_line_1: 'DESIGNING',
   hero_line_2: 'BEYOND',
   hero_line_3: 'THE ORDINARY.',
