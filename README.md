@@ -295,6 +295,22 @@ Reduced-motion users get all transitions and animations disabled (`prefers-reduc
 
 ---
 
+## 11a. Motion & loading sequence
+
+Everything is hand-written CSS + a little vanilla JS — no animation library.
+
+| Layer | What it does | Where |
+|---|---|---|
+| **Loading sequence** | First visit per session: letter-by-letter wordmark, orbiting accent ring, live percentage counter and bar, then two curtains split vertically to reveal the page. Document-readiness driven, hard-capped at ~5.5s, session-flagged, skipped for reduced motion and never shown in `/admin`. | `components/site/Loader.tsx` + `LOADING SEQUENCE` block in `globals.css` |
+| **Hero entrance** | After the curtains open, header drops in, greeting/name/role/blurb/CTAs stagger upward, portrait fades in — driven by `html[data-intro='done']`. | `POST-LOAD ENTRANCE` block |
+| **Typewriter** | The hero name types itself once the intro hands over. | `components/site/Typewriter.tsx` |
+| **Scroll reveals** | Every section/card fades up out of a soft blur, staggered by index; replayable when you scroll back. | `Reveal.tsx` + `ScrollFX.tsx` |
+| **Scrub headlines** | Section + contact headlines light word-by-word from a muted wash to full ink as they reach the read line. | `ScrubText.tsx` + `ScrollFX.tsx` |
+| **Project grid** | Cards rise in sequence with `--i` delays, image scales on hover. | `WorkGrid.tsx` + `.work-grid .project-card` |
+| **Parallax** | Portrait drifts with the pointer (fine pointers only) via `--px/--py`. | `HeroParallax.tsx` |
+| **Progress rail** | 2px accent line under the header fills with page progress (`--progress`). | `ScrollFX.tsx` + `.scroll-rail` |
+| **Reduced motion** | Loader, parallax, blur, scrub and rail all switch off; content renders final-state. | `globals.css` media query |
+
 ## 11b. Replying to messages (Google SMTP)
 
 The admin inbox at `/admin/messages` is a two-way inbox, not a mailto link.

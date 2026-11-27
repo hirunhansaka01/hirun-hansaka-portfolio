@@ -94,6 +94,8 @@ export default function WorkGrid({
             <button
               key={p.id}
               type="button"
+              data-grow
+              style={{ ['--i' as string]: i % 6 }}
               className={`project-card ${size}`}
               onClick={() => setIndex(i)}
               aria-label={`Open ${p.title}`}

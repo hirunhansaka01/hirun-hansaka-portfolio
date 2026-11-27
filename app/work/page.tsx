@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ThemeProvider from '../../components/site/ThemeProvider';
+import ScrollFX from '../../components/site/ScrollFX';
 import SiteHeader from '../../components/site/SiteHeader';
 import SiteFooter from '../../components/site/SiteFooter';
 import BackToTop from '../../components/site/BackToTop';
@@ -18,6 +19,10 @@ export default async function WorkIndexPage() {
 
   return (
     <ThemeProvider defaultTheme={settings.default_theme} tokens={settings.theme}>
+      <ScrollFX />
+      <div className="scroll-rail" aria-hidden="true">
+        <span />
+      </div>
       <SiteHeader wordmark={settings.wordmark || 'HIRUN HANSAKA'} ownerName={settings.owner_name || 'Hirun Hansaka'} />
       <main className="page-enter">
         <section className="shell" style={{ paddingTop: 'clamp(2.5rem, 6vw, 5rem)', paddingBottom: 'clamp(2rem, 4vw, 3rem)' }}>

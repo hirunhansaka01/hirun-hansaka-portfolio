@@ -8,6 +8,9 @@ import SiteFooter from '../components/site/SiteFooter';
 import BackToTop from '../components/site/BackToTop';
 import Loader from '../components/site/Loader';
 import Typewriter from '../components/site/Typewriter';
+import ScrollFX from '../components/site/ScrollFX';
+import HeroParallax from '../components/site/HeroParallax';
+import ScrubText from '../components/site/ScrubText';
 import { getPublicSiteData } from '../lib/queries';
 
 export const revalidate = 60;
@@ -19,6 +22,11 @@ export default async function HomePage() {
   return (
     <ThemeProvider defaultTheme={settings.default_theme} tokens={settings.theme}>
       <Loader name={settings.owner_name || 'Hirun Hansaka'} />
+      <ScrollFX />
+      <HeroParallax />
+      <div className="scroll-rail" aria-hidden="true">
+        <span />
+      </div>
 
       <a className="skip-link" href="#work">
         Skip to work
@@ -28,7 +36,7 @@ export default async function HomePage() {
 
       <main id="top" className="page-enter">
         {/* ---------------- HERO ---------------- */}
-        <section className="shell hero">
+        <section className="shell hero" data-hero-stage>
           <div className="hero-grid">
             <div className="hero-copy">
               <span className="hero-greet">
@@ -105,7 +113,7 @@ export default async function HomePage() {
             <div>
               <span className="eyebrow">{settings.work_label || '01 / SELECTED WORK'}</span>
               <h2 className="title-section" style={{ marginTop: '0.9rem' }}>
-                {settings.work_heading || "Things I've made."}
+                <ScrubText text={settings.work_heading || "Things I've made."} />
               </h2>
             </div>
             <Link href="/work" className="link-arrow">
@@ -128,7 +136,7 @@ export default async function HomePage() {
               <Reveal>
                 <span className="eyebrow">{settings.about_label || '02 / ABOUT'}</span>
                 <h2 className="title-section" style={{ marginTop: '0.9rem' }}>
-                  {settings.about_heading || 'A little about what I do.'}
+                  <ScrubText text={settings.about_heading || 'A little about what I do.'} />
                 </h2>
                 <p className="lede" style={{ marginTop: '1.25rem' }}>
                   {settings.about_body}
@@ -198,7 +206,7 @@ export default async function HomePage() {
             <div>
               <span className="eyebrow">{settings.services_label || '03 / SERVICES'}</span>
               <h2 className="title-section" style={{ marginTop: '0.9rem' }}>
-                {settings.services_heading || 'What I can create.'}
+                <ScrubText text={settings.services_heading || 'What I can create.'} />
               </h2>
             </div>
           </Reveal>
@@ -239,7 +247,7 @@ export default async function HomePage() {
                     }, [])
                     .map((line, i) => (
                       <span key={i} style={{ display: 'block' }}>
-                        {line.join(' ')}
+                        <ScrubText text={line.join(' ')} />
                       </span>
                     ))}
                 </h2>
