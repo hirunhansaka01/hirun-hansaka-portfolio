@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import ThemeProvider from '../components/site/ThemeProvider';
 import SiteHeader from '../components/site/SiteHeader';
-import KineticCanvas from '../components/site/KineticCanvas';
 import WorkGrid from '../components/site/WorkGrid';
 import ContactForm from '../components/site/ContactForm';
 import Reveal from '../components/site/Reveal';
@@ -28,61 +27,46 @@ export default async function HomePage() {
       <main id="top" className="page-enter">
         {/* ---------------- HERO ---------------- */}
         <section className="shell hero">
-          <div className="hero-grid">
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-              <div className="hero-status">
-                <span className="pill">
-                  <span className="pulse" aria-hidden="true" />
-                  {settings.availability_text || 'Available for projects'}
+          <div className="hero-status">
+            <span className="pill">
+              <span className="pulse" aria-hidden="true" />
+              {settings.availability_text || 'Available for projects'}
+            </span>
+            <span className="meta">{settings.location_label || 'Sri Lanka'}</span>
+            <span className="meta hero-coords">06°55′N 79°51′E</span>
+          </div>
+
+          <h1 className="hero-title" data-ready="true">
+            {heroLines.map((line, i) => {
+              const isAccent = line.toUpperCase().includes(accent);
+              const parts = isAccent
+                ? (() => {
+                    const idx = line.toUpperCase().indexOf(accent);
+                    return [
+                      line.slice(0, idx),
+                      <span className="accent" key="a">
+                        {line.slice(idx, idx + accent.length)}
+                      </span>,
+                      line.slice(idx + accent.length),
+                    ];
+                  })()
+                : [line];
+              return (
+                <span className="split-line" key={i}>
+                  <span style={{ ['--line-delay' as string]: `${120 + i * 90}ms` }}>{parts}</span>
                 </span>
-                <span className="meta">{settings.location_label || 'Sri Lanka'}</span>
-                <span className="meta" style={{ marginLeft: 'auto' }}>
-                  06°55′N 79°51′E
-                </span>
-              </div>
+              );
+            })}
+          </h1>
 
-              <h1 className="hero-title" data-ready="true">
-                {heroLines.map((line, i) => {
-                  const isAccent = line.toUpperCase().includes(accent);
-                  const parts = isAccent
-                    ? (() => {
-                        const idx = line.toUpperCase().indexOf(accent);
-                        return [
-                          line.slice(0, idx),
-                          <span className="accent" key="a">
-                            {line.slice(idx, idx + accent.length)}
-                          </span>,
-                          line.slice(idx + accent.length),
-                        ];
-                      })()
-                    : [line];
-                  return (
-                    <span className="split-line" key={i}>
-                      <span style={{ ['--line-delay' as string]: `${140 + i * 110}ms` }}>{parts}</span>
-                    </span>
-                  );
-                })}
-              </h1>
-
-              <div className="hero-lower">
-                <p className="lede" style={{ maxWidth: '30ch', margin: 0 }}>
-                  {settings.role_line || 'Web developer. Designer. Visual creator.'}
-                </p>
-                <a className="scroll-cue" href="#work">
-                  {settings.hero_scroll_label || 'Scroll to explore'}
-                  <svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true">
-                    <path d="M6 1v12M2 9l4 5 4-5" stroke="currentColor" strokeWidth="1.2" fill="none" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <KineticCanvas
-                label={settings.canvas_label || 'THE DIGITAL CANVAS'}
-                year={settings.canvas_year || String(new Date().getFullYear())}
-              />
-            </div>
+          <div className="hero-lower">
+            <p className="hero-role">{settings.role_line || 'Web developer. Designer. Visual creator.'}</p>
+            <a className="scroll-cue" href="#work">
+              {settings.hero_scroll_label || 'Scroll to explore'}
+              <svg width="11" height="14" viewBox="0 0 12 16" aria-hidden="true">
+                <path d="M6 1v12M2 9l4 5 4-5" stroke="currentColor" strokeWidth="1.2" fill="none" />
+              </svg>
+            </a>
           </div>
         </section>
 

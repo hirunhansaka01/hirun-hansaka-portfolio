@@ -29,7 +29,7 @@
   --step-3: clamp(1.75rem, 1.4rem + 1.7vw, 2.75rem);
   --step-4: clamp(2.25rem, 1.6rem + 3.2vw, 4.25rem);
   --step-5: clamp(3rem, 1.6rem + 7vw, 7.5rem);
-  --step-hero: clamp(3.25rem, 1rem + 11.5vw, 12.5rem);
+  --step-hero: clamp(2.15rem, 1.05rem + 4.1vw, 4.9rem);
 
   --pad-x: clamp(1.25rem, 4vw, 4.5rem);
   --gutter: clamp(1rem, 2vw, 1.75rem);
@@ -103,11 +103,12 @@ h1, h2, h3, h4 {
 
 .hero-title {
   font-size: var(--step-hero);
-  letter-spacing: -0.045em;
-  line-height: 0.82;
+  letter-spacing: -0.038em;
+  line-height: 0.9;
   font-weight: 500;
   margin: 0;
   text-transform: uppercase;
+  max-width: 22ch;
 }
 .hero-title .accent { color: var(--accent); }
 .hero-title .outline {
@@ -317,22 +318,18 @@ h1, h2, h3, h4 {
 /* ---------- HERO ---------- */
 .hero {
   position: relative;
-  padding-top: clamp(2rem, 5vw, 4rem);
-  padding-bottom: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(1.5rem, 3.5vw, 2.75rem);
+  padding-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
   overflow: hidden;
-}
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(2rem, 4vw, 3rem);
-  align-items: end;
+  max-width: 1180px;
+  margin-inline: auto;
 }
 .hero-status {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem 1.25rem;
-  margin-bottom: clamp(1.5rem, 3vw, 2.75rem);
+  margin-bottom: clamp(1.25rem, 2.4vw, 2rem);
 }
 .pill {
   display: inline-flex;
@@ -367,13 +364,21 @@ h1, h2, h3, h4 {
 .hero-lower {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  margin-top: clamp(1.75rem, 3vw, 2.75rem);
-  padding-top: 1.25rem;
+  gap: 1rem 1.5rem;
+  margin-top: clamp(1.4rem, 2.4vw, 2rem);
+  padding-top: 1rem;
   border-top: 1px solid var(--line);
 }
+.hero-role {
+  margin: 0;
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--fg-muted);
+  max-width: 34ch;
+}
+.hero-coords { margin-left: auto; }
 .scroll-cue {
   display: inline-flex;
   align-items: center;
@@ -390,46 +395,6 @@ h1, h2, h3, h4 {
 @keyframes bob {
   0%, 100% { transform: translateY(-1px); }
   50% { transform: translateY(4px); }
-}
-
-/* Kinetic canvas object */
-.canvas-frame {
-  position: relative;
-  border: 1px solid var(--line);
-  background:
-    radial-gradient(120% 100% at 50% 0%, color-mix(in srgb, var(--accent) 7%, var(--bg-elevated)) 0%, var(--bg-elevated) 62%);
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.canvas-frame::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 25% 20%;
-  opacity: 0.55;
-}
-.canvas-frame svg { position: relative; width: 100%; height: 100%; }
-.canvas-caption {
-  position: absolute;
-  inset: auto 0.9rem 0.8rem;
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  pointer-events: none;
-}
-.morph-shape {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 900ms var(--ease-out);
 }
 
 /* ---------- MARQUEE ---------- */
@@ -1093,18 +1058,16 @@ h1, h2, h3, h4 {
 }
 
 @media (min-width: 900px) {
-  .hero-grid { grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.75fr); align-items: stretch; }
   .hero-lower { border-top: 1px solid var(--line); }
   .about-grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
   .contact-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); align-items: start; }
-  .hero .canvas-frame { height: 100%; }
 }
 
 @media (max-width: 899px) {
   .nav { display: none; }
   .menu-btn { display: inline-flex; }
-  .canvas-frame { aspect-ratio: 16 / 11; }
-  .hero-grid { gap: 2rem; }
+  .hero-coords { display: none; }
+  .hero-title { max-width: 100%; }
   .project-info { flex-direction: row; }
   .service-item .s-note { display: none; }
   .service-item { grid-template-columns: auto 1fr; }

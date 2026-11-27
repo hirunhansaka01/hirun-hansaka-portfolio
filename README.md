@@ -54,7 +54,7 @@ Every section has its own composition:
 
 | Section | Composition |
 | --- | --- |
-| Hero | Oversized three-line headline (left) + interactive SVG canvas object (right), coordinate label, scroll cue |
+| Hero | Compact type-led block: three-line display headline, availability pill, coordinate label, single-line scroll cue — no decorative graphic |
 | Work | 12-column asymmetric grid — 7/5, 6/6, 4/4/4 — with a scrolling marquee divider above |
 | About | Portrait frame (grayscale → colour on hover) + numbered skill index table |
 | Services | Full-width rule-separated list; row expands and title slides on hover |
@@ -139,7 +139,6 @@ app/
 components/site/
   ThemeProvider.tsx        theme state, localStorage, ink-spread overlay, token injection
   SiteHeader.tsx           nav, mobile sheet, theme switcher
-  KineticCanvas.tsx        hero SVG object with pointer parallax
   Reveal.tsx               IntersectionObserver scroll reveal
   WorkGrid.tsx             filters + asymmetric grid + View more + modal
   AllProjects.tsx          archive list + search

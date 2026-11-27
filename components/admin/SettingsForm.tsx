@@ -179,10 +179,7 @@ export default function SettingsForm({
                   hint="The word in the headline that renders in the accent colour."
                 />
               </div>
-              <div className="a-grid-2">
-                <Field name="hero_scroll_label" label="Scroll cue label" defaultValue={settings.hero_scroll_label} />
-                <Field name="canvas_year" label="Canvas year" defaultValue={settings.canvas_year} />
-              </div>
+              <Field name="hero_scroll_label" label="Scroll cue label" defaultValue={settings.hero_scroll_label} />
 
               <div className="a-section-label">Section labels</div>
               <div className="a-grid-2">
